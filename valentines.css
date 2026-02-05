@@ -1,0 +1,485 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+    overflow: hidden;
+    position: relative;
+}
+
+/* Animated hearts background */
+.hearts-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.hearts-background::before,
+.hearts-background::after {
+    content: '💖';
+    position: absolute;
+    font-size: 30px;
+    animation: float 8s infinite ease-in-out;
+    opacity: 0.3;
+}
+
+.hearts-background::before {
+    top: 20%;
+    left: 10%;
+    animation-delay: 0s;
+}
+
+.hearts-background::after {
+    top: 60%;
+    right: 10%;
+    animation-delay: 2s;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0) rotate(0deg);
+    }
+    50% {
+        transform: translateY(-30px) rotate(10deg);
+    }
+}
+
+.container {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 500px;
+    padding: 20px;
+}
+
+.card {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 30px;
+    padding: 50px 40px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    animation: fadeIn 0.8s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.emoji-heart {
+    font-size: 80px;
+    animation: heartBeat 1.5s infinite;
+    margin-bottom: 20px;
+}
+
+@keyframes heartBeat {
+    0%, 100% {
+        transform: scale(1);
+    }
+    10%, 30% {
+        transform: scale(1.1);
+    }
+    20%, 40% {
+        transform: scale(1);
+    }
+}
+
+.title {
+    font-size: 32px;
+    color: #d63384;
+    margin-bottom: 15px;
+    font-weight: 700;
+}
+
+.message {
+    font-size: 18px;
+    color: #555;
+    margin-bottom: 40px;
+    line-height: 1.6;
+}
+
+/* Game Area Styles */
+.game-area {
+    position: relative;
+    width: 100%;
+    height: 350px;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    border-radius: 20px;
+    overflow: hidden;
+    margin-top: 20px;
+    cursor: crosshair;
+}
+
+.game-hint {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 24px;
+    color: #999;
+    pointer-events: none;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
+}
+
+.score-display {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 15px;
+    font-size: 20px;
+    font-weight: 600;
+    color: #d63384;
+}
+
+.score, .timer {
+    background: rgba(214, 51, 132, 0.1);
+    padding: 10px 20px;
+    border-radius: 15px;
+}
+
+.falling-heart {
+    position: absolute;
+    font-size: 30px;
+    cursor: pointer;
+    user-select: none;
+    transition: transform 0.1s;
+    animation: fall linear;
+}
+
+.falling-heart:hover {
+    transform: scale(1.2);
+}
+
+.falling-heart.clicked {
+    animation: heartPop 0.3s forwards;
+}
+
+@keyframes fall {
+    from {
+        top: -50px;
+    }
+    to {
+        top: 100%;
+    }
+}
+
+@keyframes heartPop {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.5);
+    }
+    100% {
+        transform: scale(0);
+        opacity: 0;
+    }
+}
+
+.buttons-container {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    min-height: 60px;
+    position: relative;
+}
+
+.btn {
+    padding: 15px 40px;
+    font-size: 18px;
+    font-weight: 600;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.btn-yes {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    color: white;
+}
+
+.btn-yes:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(245, 87, 108, 0.4);
+}
+
+.btn-yes:active {
+    transform: scale(1.05);
+}
+
+.btn-no {
+    background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+    color: #d63384;
+    position: absolute;
+    transition: all 0.3s ease;
+}
+
+.btn-no:hover {
+    /* The hover effect will be handled by JavaScript */
+}
+
+/* Modal styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    animation: fadeIn 0.3s ease-out;
+}
+
+.modal-content {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    margin: 10% auto;
+    padding: 50px;
+    border-radius: 30px;
+    max-width: 500px;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    animation: slideIn 0.5s ease-out;
+    position: relative;
+    overflow: hidden;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(-100px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.celebration {
+    font-size: 60px;
+    margin-bottom: 20px;
+    animation: bounce 1s infinite;
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-20px);
+    }
+}
+
+.modal-content h2 {
+    color: white;
+    font-size: 36px;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.success-message {
+    color: white;
+    font-size: 20px;
+    margin-bottom: 30px;
+}
+
+.game-over {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.game-over .btn {
+    margin-top: 20px;
+}
+
+/* Fireworks effect */
+.fireworks {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.fireworks::before,
+.fireworks::after {
+    content: '✨';
+    position: absolute;
+    font-size: 40px;
+    animation: explode 2s infinite;
+}
+
+.fireworks::before {
+    top: 30%;
+    left: 20%;
+    animation-delay: 0s;
+}
+
+.fireworks::after {
+    top: 50%;
+    right: 20%;
+    animation-delay: 1s;
+}
+
+@keyframes explode {
+    0% {
+        transform: scale(0) rotate(0deg);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.5) rotate(180deg);
+        opacity: 0.8;
+    }
+    100% {
+        transform: scale(0.5) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .card {
+        padding: 40px 30px;
+    }
+
+    .title {
+        font-size: 28px;
+    }
+
+    .emoji-heart {
+        font-size: 60px;
+    }
+
+    .message {
+        font-size: 16px;
+    }
+
+    .btn {
+        padding: 12px 30px;
+        font-size: 16px;
+    }
+
+    .game-area {
+        height: 300px;
+    }
+
+    .score-display {
+        font-size: 18px;
+    }
+
+    .falling-heart {
+        font-size: 25px;
+    }
+
+    .modal-content {
+        margin: 20% auto;
+        padding: 40px 30px;
+    }
+
+    .modal-content h2 {
+        font-size: 28px;
+    }
+
+    .success-message {
+        font-size: 18px;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 15px;
+    }
+
+    .card {
+        padding: 30px 20px;
+        border-radius: 20px;
+    }
+
+    .title {
+        font-size: 24px;
+    }
+
+    .emoji-heart {
+        font-size: 50px;
+    }
+
+    .message {
+        font-size: 15px;
+        margin-bottom: 30px;
+    }
+
+    .btn {
+        padding: 10px 25px;
+        font-size: 15px;
+    }
+
+    .buttons-container {
+        gap: 15px;
+    }
+
+    .game-area {
+        height: 250px;
+    }
+
+    .score-display {
+        font-size: 16px;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .falling-heart {
+        font-size: 22px;
+    }
+
+    .celebration {
+        font-size: 50px;
+    }
+
+    .modal-content h2 {
+        font-size: 24px;
+    }
+
+    .success-message {
+        font-size: 16px;
+    }
+}
+
+/* Special animation for small screens */
+@media (max-width: 380px) {
+    .title {
+        font-size: 20px;
+    }
+
+    .btn {
+        padding: 8px 20px;
+        font-size: 14px;
+    }
+}

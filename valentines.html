@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💝 Will You Be My Valentine? 💝</title>
+    <link rel="stylesheet" href="valentines.css">
+</head>
+<body>
+    <div class="hearts-background"></div>
+    
+    <div class="container">
+        <!-- Game Screen -->
+        <div id="gameScreen" class="card">
+            <h1 class="title">Quick Challenge! 🎮</h1>
+            <p class="message">Catch 10 hearts to unlock the question!</p>
+            <div class="score-display">
+                <span class="score">Score: <span id="score">0</span>/10</span>
+                <span class="timer">Time: <span id="timer">30</span>s</span>
+            </div>
+            <div id="gameArea" class="game-area">
+                <div class="game-hint">Click the hearts! 💖</div>
+            </div>
+        </div>
+
+        <!-- Question Screen -->
+        <div id="questionScreen" class="card" style="display: none;">
+            <div class="emoji-heart">💝</div>
+            <h1 class="title">Alright, here's the real question...</h1>
+            <p class="message">Will you be my Valentine?</p>
+            
+            <div class="buttons-container">
+                <button id="yesButton" class="btn btn-yes">Yeah, sure</button>
+                <button id="noButton" class="btn btn-no">Nah</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="successModal" class="modal">
+        <div class="modal-content">
+            <div class="celebration">🎉</div>
+            <h2>Awesome! 🎊</h2>
+            <p class="success-message">Can't wait! 😊</p>
+            <div class="fireworks"></div>
+        </div>
+    </div>
+
+    <!-- Game Over Modal -->
+    <div id="gameOverModal" class="modal">
+        <div class="modal-content game-over">
+            <h2>Time's Up! ⏰</h2>
+            <p class="success-message">But you can try again! 💪</p>
+            <button id="retryButton" class="btn btn-yes">Retry</button>
+        </div>
+    </div>
+
+    <script src="valentines.js"></script>
+</body>
+</html>
