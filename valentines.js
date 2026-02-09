@@ -134,12 +134,16 @@ function spawnYesButton() {
 // Replace hover/touch with click to spawn Yes buttons
 noButton.addEventListener('click', function(e) {
     e.preventDefault();
+    e.stopPropagation();
     spawnYesButton();
     spawnYesButton(); // Spawn 2 Yes buttons per tap
 });
 
-noButton.addEventListener('touchstart', function(e) {
+noButton.addEventListener('touchend', function(e) {
     e.preventDefault();
+    e.stopPropagation();
+    spawnYesButton();
+    spawnYesButton(); // Spawn 2 Yes buttons per tap
 });
 
 function createFloatingHearts() {
