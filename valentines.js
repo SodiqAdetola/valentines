@@ -1,5 +1,4 @@
-// (same variables as yours)
-
+// Get elements
 const gameScreen = document.getElementById('gameScreen');
 const questionScreen = document.getElementById('questionScreen');
 const gameArea = document.getElementById('gameArea');
@@ -41,6 +40,15 @@ function spawnHeart() {
     heart.innerHTML = '<i class="ri-heart-3-fill heart-icon"></i>';
     heart.style.left = Math.random() * (gameArea.offsetWidth - 40) + 'px';
 
+    // Random rotation for tilt
+    const rotation = Math.random() * 60 - 30; // -30 to 30 degrees
+    heart.style.transform = `rotate(${rotation}deg)`;
+
+    // Different shades of pink
+    const pinkShades = ['#ff4d6d', '#ff6b9d', '#ff85a1', '#ff1744', '#ff4081', '#ff6f91'];
+    const randomPink = pinkShades[Math.floor(Math.random() * pinkShades.length)];
+    heart.querySelector('.heart-icon').style.color = randomPink;
+
     const fallDuration = Math.random() * 2 + 3;
     heart.style.animationDuration = fallDuration + 's';
 
@@ -71,6 +79,9 @@ function endGame(won) {
 
 retryButton.addEventListener('click', () => {
     gameOverModal.style.display = 'none';
+    gameScreen.style.display = 'block';
+    const hint = document.querySelector('.game-hint');
+    if (hint) hint.style.display = 'block';
     startGame();
 });
 
@@ -82,7 +93,6 @@ gameArea.addEventListener('click', () => {
         startGame();
     }
 });
-
 
 function getRandomPosition() {
     const padding = 20;
@@ -97,20 +107,40 @@ function getRandomPosition() {
     };
 }
 
-function moveNoButton() {
+function spawnYesButton() {
+    const newYesBtn = document.createElement('button');
+    newYesBtn.className = 'btn btn-yes spawned-yes';
+    newYesBtn.textContent = 'Yes';
+    
+    // Random position on screen
     const pos = getRandomPosition();
-    noButton.style.position = 'fixed';
-    noButton.style.left = pos.x + 'px';
-    noButton.style.top = pos.y + 'px';
-    noButtonMoved = true;
+    newYesBtn.style.position = 'fixed';
+    newYesBtn.style.left = pos.x + 'px';
+    newYesBtn.style.top = pos.y + 'px';
+    newYesBtn.style.zIndex = '9998';
+    newYesBtn.style.animation = 'popIn 0.3s ease-out';
+    
+    document.body.appendChild(newYesBtn);
+    
+    // Same click behavior as original Yes button
+    newYesBtn.addEventListener('click', function() {
+        successModal.style.display = 'flex';
+        successModal.style.justifyContent = 'center';
+        successModal.style.alignItems = 'center';
+        createSparkles();
+    });
 }
 
-noButton.addEventListener('mouseenter', moveNoButton);
-noButton.addEventListener('touchstart', (e) => {
+// Replace hover/touch with click to spawn Yes buttons
+noButton.addEventListener('click', function(e) {
     e.preventDefault();
-    moveNoButton();
+    spawnYesButton();
+    spawnYesButton(); // Spawn 2 Yes buttons per tap
 });
 
+noButton.addEventListener('touchstart', function(e) {
+    e.preventDefault();
+});
 
 function createFloatingHearts() {
     const bg = document.querySelector('.hearts-background');
@@ -152,3 +182,26 @@ function createSparkles() {
         }, i * 80);
     }
 }
+
+// Close modals when clicking outside
+window.addEventListener('click', function(event) {
+    if (event.target === successModal) {
+        successModal.style.display = 'none';
+    }
+    if (event.target === gameOverModal) {
+        gameOverModal.style.display = 'none';
+    }
+});
+
+// Handle window resize
+window.addEventListener('resize', function() {
+    if (noButtonMoved) {
+        const button = noButton.getBoundingClientRect();
+        const viewportWidth = window.innerWidth;
+        const viewportHeight = window.innerHeight;
+        
+        if (button.right > viewportWidth || button.bottom > viewportHeight) {
+            moveNoButton();
+        }
+    }
+});

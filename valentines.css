@@ -14,6 +14,67 @@ body {
     overflow: hidden;
 }
 
+/* Hello Kitty corner decorations */
+.hello-kitty-decor {
+    position: fixed;
+    width: 100px;
+    height: auto;
+    opacity: 0.6;
+    z-index: 0;
+    animation: float 6s infinite ease-in-out;
+}
+
+.kitty-left {
+    bottom: 30px;
+    left: 30px;
+}
+
+.kitty-right {
+    top: 30px;
+    right: 30px;
+    transform: scaleX(-1);
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+}
+
+.kitty-right {
+    animation: floatFlip 6s infinite ease-in-out;
+}
+
+@keyframes floatFlip {
+    0%, 100% { transform: scaleX(-1) translateY(0); }
+    50% { transform: scaleX(-1) translateY(-20px); }
+}
+
+/* Hello Kitty main image on question screen */
+.hello-kitty-main {
+    width: 120px;
+    height: auto;
+    margin-bottom: 20px;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+/* Hello Kitty success image */
+.hello-kitty-success-img {
+    width: 100px;
+    height: auto;
+    margin-bottom: 20px;
+    animation: bounce 1s infinite;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+}
+
 /* Floating background hearts */
 .hearts-background {
     position: fixed;
@@ -27,10 +88,10 @@ body {
     font-size: 28px;
     color: white;
     opacity: 0.12;
-    animation: float 8s infinite ease-in-out;
+    animation: floatHeart 8s infinite ease-in-out;
 }
 
-@keyframes float {
+@keyframes floatHeart {
     50% { transform: translateY(-30px) rotate(10deg); }
 }
 
@@ -96,7 +157,7 @@ body {
 }
 
 .heart-icon {
-    font-size: 50px;
+    font-size: 40px;
     color: #ff4d6d;
 }
 
@@ -108,11 +169,15 @@ body {
 .big-heart {
     font-size: 80px;
     color: #ff4d6d;
-    animation: pulse 1.5s infinite;
+    animation: pulseBig 1.5s infinite;
 }
 
-@keyframes pulse {
+@keyframes pulseBig {
     50% { transform: scale(1.1); }
+}
+
+.emoji-heart {
+    margin-bottom: 20px;
 }
 
 /* Buttons */
@@ -137,13 +202,32 @@ body {
     color: white;
 }
 
+.btn-yes:hover {
+    transform: scale(1.05);
+}
+
+.spawned-yes {
+    animation: popIn 0.3s ease-out;
+}
+
+@keyframes popIn {
+    from {
+        transform: scale(0);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
 .btn-no {
     background: #eee;
     position: absolute;
+    z-index: 9999;
 }
 
 /* Modals */
-/* Modal overlay */
 .modal {
     display: none;       
     position: fixed;
@@ -153,7 +237,6 @@ body {
     justify-content: center;
     align-items: center;
 }
-
 
 /* Modal card */
 .modal-content {
@@ -191,5 +274,93 @@ body {
     100% {
         transform: scale(1.8) rotate(180deg);
         opacity: 0;
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .hello-kitty-decor {
+        width: 80px;
+    }
+
+    .hello-kitty-main {
+        width: 100px;
+    }
+
+    .hello-kitty-success-img {
+        width: 80px;
+    }
+
+    .card {
+        padding: 40px 30px;
+    }
+
+    .title {
+        font-size: 26px;
+    }
+
+    .game-area {
+        height: 300px;
+    }
+}
+
+@media (max-width: 480px) {
+    .hello-kitty-decor {
+        width: 60px;
+    }
+
+    .kitty-left {
+        bottom: 10px;
+        left: 10px;
+    }
+
+    .kitty-right {
+        top: 10px;
+        right: 10px;
+    }
+
+    .hello-kitty-main {
+        width: 80px;
+    }
+
+    .hello-kitty-success-img {
+        width: 70px;
+    }
+
+    .container {
+        padding: 15px;
+    }
+
+    .card {
+        padding: 30px 20px;
+        border-radius: 20px;
+    }
+
+    .title {
+        font-size: 22px;
+    }
+
+    .message {
+        font-size: 15px;
+        margin-bottom: 25px;
+    }
+
+    .btn {
+        padding: 10px 25px;
+        font-size: 15px;
+    }
+
+    .game-area {
+        height: 250px;
+    }
+
+    .score-display {
+        font-size: 14px;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .modal-content {
+        padding: 35px 25px;
     }
 }
